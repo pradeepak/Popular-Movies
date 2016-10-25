@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Popular Movies</string>
+    <string name="movie_title">Movie Title</string>
+    <string name="image">Image</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="internet_connection_not_available">Internet Connection Not Available!</string>
+    <string name="byPopularity">Popularity</string>
+    <string name="byRating">Rating</string>
+    <string name="retry">Retry</string>
+</resources>
