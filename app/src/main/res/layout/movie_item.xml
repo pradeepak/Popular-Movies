@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content">
-
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <android.support.v7.widget.AppCompatImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:layout_gravity="top|start"
-            android:id="@+id/moviePoster"
-            android:src="@mipmap/ic_launcher"
-            android:contentDescription="@string/image"/>
+        android:id="@+id/moviePoster"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|start"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/image"
+        android:src="@mipmap/ic_launcher" />
+
     <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:layout_weight="1"
-            android:padding="8dp"
-            android:id="@+id/movieTitle"
-            android:text="@string/movie_title"
-            android:fontFamily="@string/abc_font_family_title_material"/>
+        android:id="@+id/movieTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:fontFamily="@string/abc_font_family_title_material"
+        android:gravity="center_vertical"
+        android:padding="8dp"
+        android:text="@string/movie_title" />
 </LinearLayout>

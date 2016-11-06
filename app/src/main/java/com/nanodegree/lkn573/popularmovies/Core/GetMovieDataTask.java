@@ -23,10 +23,10 @@ import java.net.URL;
 
 public class GetMovieDataTask extends AsyncTask<String, Void, Movie[]> {
 
-    OnMoviesRetrievedListener moviesRetrievedListener = null;
     public static final String TAG = GetMovieDataTask.class.getSimpleName();
+    OnMoviesRetrievedListener moviesRetrievedListener = null;
 
-    public GetMovieDataTask(OnMoviesRetrievedListener moviesRetrievedListener){
+    public GetMovieDataTask(OnMoviesRetrievedListener moviesRetrievedListener) {
         this.moviesRetrievedListener = moviesRetrievedListener;
     }
 
@@ -120,13 +120,14 @@ public class GetMovieDataTask extends AsyncTask<String, Void, Movie[]> {
     @Override
     protected void onPostExecute(Movie[] movies) {
         super.onPostExecute(movies);
-        if(movies != null){
+        if (movies != null) {
             moviesRetrievedListener.onMoviesRetrieved(movies);
         }
 
     }
+
     public interface OnMoviesRetrievedListener {
-        void onMoviesRetrieved (Movie[] movies);
+        void onMoviesRetrieved(Movie[] movies);
     }
 
 }

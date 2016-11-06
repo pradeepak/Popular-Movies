@@ -12,7 +12,7 @@ import android.widget.Button;
 import com.nanodegree.lkn573.popularmovies.Core.CoreFragment;
 import com.nanodegree.lkn573.popularmovies.R;
 
-public class NetworkErrorFragment extends CoreFragment implements View.OnClickListener{
+public class NetworkErrorFragment extends CoreFragment implements View.OnClickListener {
 
     Button retryButton;
 
@@ -21,29 +21,23 @@ public class NetworkErrorFragment extends CoreFragment implements View.OnClickLi
     private onRetryListener mListener;
 
     public NetworkErrorFragment() {
-        // Required empty public constructor
     }
-
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-        Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_network_error, container, false);
-
-
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-         retryButton = (Button) getActivity().findViewById(R.id.retryButton);
+        retryButton = (Button) getActivity().findViewById(R.id.retryButton);
         retryButton.setOnClickListener(this);
         super.onActivityCreated(savedInstanceState);
     }
@@ -51,7 +45,6 @@ public class NetworkErrorFragment extends CoreFragment implements View.OnClickLi
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
-
         }
     }
 
@@ -62,7 +55,7 @@ public class NetworkErrorFragment extends CoreFragment implements View.OnClickLi
             mListener = (onRetryListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                + " must implement OnFragmentInteractionListener");
+                    + " must implement OnFragmentInteractionListener");
         }
     }
 
@@ -75,11 +68,9 @@ public class NetworkErrorFragment extends CoreFragment implements View.OnClickLi
     @Override
     public void onClick(View view) {
         mListener.retryNetworkClicked();
-
     }
 
     public interface onRetryListener {
-
         // TODO: Update argument type and name
         void retryNetworkClicked();
     }

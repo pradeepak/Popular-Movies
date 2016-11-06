@@ -27,15 +27,11 @@ import java.util.Arrays;
 
 
 public class MoviesOverviewFragment extends CoreFragment implements GetMovieDataTask.OnMoviesRetrievedListener,
-    AdapterView.OnItemClickListener {
-
-    private enum SortCriteria {
-        BYPOPULARITY,
-        BYRATING
-    }
-    onMoviesOverviewNetworkConnectionListener mMoviesOverviewListener;
+        AdapterView.OnItemClickListener {
 
     public static final String TAG = MoviesOverviewFragment.class.getSimpleName();
+
+    onMoviesOverviewNetworkConnectionListener mMoviesOverviewListener;
 
     MovieArrayAdapter mMovieArrayAdapter;
 
@@ -51,20 +47,12 @@ public class MoviesOverviewFragment extends CoreFragment implements GetMovieData
     public void onCreate(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
             sortCriteria = SortCriteria.BYPOPULARITY;
-//        mMovieArrayAdapter = new MovieArrayAdapter(getContext(), 0, Arrays.asList(retreivedMovies));
         }
         if (savedInstanceState != null) {
-            //retreivedMovies = (Movie[]) savedInstanceState.getParcelableArray("MovieValues");
-
             sortCriteria = (SortCriteria) savedInstanceState.getSerializable("SortCriteria");
-            Log.d(TAG, "onCreate: " + sortCriteria);
-
         }
-        // Log.d(TAG, "onCreate: called");
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-
-
     }
 
     @Override
@@ -74,11 +62,7 @@ public class MoviesOverviewFragment extends CoreFragment implements GetMovieData
             getMovieData(sortCriteria);
         } else {
             sortCriteria = (SortCriteria) savedInstanceState.getSerializable("SortCriteria");
-            Log.d(TAG, "onCreateView: inside " + sortCriteria);
         }
-       // getMovieData(sortCriteria);
-        Log.d(TAG, "onCreateView: outside " + sortCriteria);
-
         return rootView;
     }
 
@@ -86,10 +70,7 @@ public class MoviesOverviewFragment extends CoreFragment implements GetMovieData
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         toolbar = (Toolbar) view.findViewById(R.id.moviesToolbar);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-       // getMovieData(SortCriteria.BYRATING);
-        Log.d(TAG, "onViewCreated: ");
-
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
     }
 
     private void getMovieData(SortCriteria mSortCriteria) {
@@ -100,7 +81,6 @@ public class MoviesOverviewFragment extends CoreFragment implements GetMovieData
         } else if (mSortCriteria == SortCriteria.BYRATING) {
             sortCriteria = mSortCriteria;
             new GetMovieDataTask(this).execute("Top Rated");
-
         }
     }
 
@@ -115,7 +95,7 @@ public class MoviesOverviewFragment extends CoreFragment implements GetMovieData
             mMoviesOverviewListener = (onMoviesOverviewNetworkConnectionListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                + " must implement OnFragmentInteractionListener");
+                    + " must implement OnFragmentInteractionListener");
         }
         super.onAttach(context);
     }
@@ -124,7 +104,6 @@ public class MoviesOverviewFragment extends CoreFragment implements GetMovieData
     public void onDetach() {
         super.onDetach();
         mMoviesOverviewListener = null;
-
     }
 
     @Override
@@ -133,20 +112,16 @@ public class MoviesOverviewFragment extends CoreFragment implements GetMovieData
         for (int i = 0; i < movies.length; i++) {
             mMovieArrayAdapter = new MovieArrayAdapter(getContext(), 0, Arrays.asList(movies));
             moviesGridView.setAdapter(mMovieArrayAdapter);
-            // mMovieArrayAdapter.notifyDataSetChanged();
         }
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
         Intent intent = new Intent(getContext(), MovieDetails.class);
         Movie movieItem = (Movie) adapterView.getItemAtPosition(i);
-        Log.d(TAG, "onItemClick: " + movieItem.getTitle());
         intent.putExtra("SelectedMovie", movieItem);
         startActivity(intent);
     }
-
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
@@ -163,63 +138,53 @@ public class MoviesOverviewFragment extends CoreFragment implements GetMovieData
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         if (savedInstanceState != null) {
             sortCriteria = (SortCriteria) savedInstanceState.getSerializable("SortCriteria");
-            Log.d(TAG, "onActivityCreated: "+ sortCriteria);
         }
         moviesGridView = (GridView) getActivity().findViewById(R.id.moviesGrid);
         moviesGridView.setOnItemClickListener(this);
-        Log.d(TAG, "onActivityCreated: called with " + sortCriteria);
         super.onActivityCreated(savedInstanceState);
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        Log.d(TAG, "onSaveInstanceState: called" + sortCriteria);
         outState.putSerializable("SortCriteria", sortCriteria);
-
-        outState.putParcelableArray("MovieValues", retreivedMovies);
+//        outState.putParcelableArray("MovieValues", retreivedMovies);
         super.onSaveInstanceState(outState);
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Bundle bundle = new Bundle();
         int id = item.getItemId();
-        Log.d(TAG, "onOptionsItemSelected: check" );
         switch (id) {
             case R.id.sortByPopularity:
-
                 sortCriteria = SortCriteria.BYPOPULARITY;
                 if (!item.isChecked()) {
-                    if(NetworkUtil.isNetworkConnected(getContext())) {
+                    if (NetworkUtil.isNetworkConnected(getContext())) {
                         getMovieData(sortCriteria);
-                    }  mMoviesOverviewListener.isNetworkConnectionLost();
-
+                    }
+                    mMoviesOverviewListener.isNetworkConnectionLost();
                 }
                 item.setChecked(!item.isChecked());
                 break;
-
             case R.id.sortByRating:
-
                 sortCriteria = SortCriteria.BYRATING;
                 if (!item.isChecked()) {
-                    if(NetworkUtil.isNetworkConnected(getContext())) {
-                        getMovieData(sortCriteria);}
+                    if (NetworkUtil.isNetworkConnected(getContext())) {
+                        getMovieData(sortCriteria);
+                    }
                     mMoviesOverviewListener.isNetworkConnectionLost();
                 }
-
                 item.setChecked(!item.isChecked());
                 break;
         }
-
-        Log.d(TAG, "onOptionsItemSelected: " + sortCriteria);
-        //bundle.putParcelable("SortCriteria", sort);
         return super.onOptionsItemSelected(item);
     }
 
-
-    public interface onMoviesOverviewNetworkConnectionListener{
-        void isNetworkConnectionLost();
+    private enum SortCriteria {
+        BYPOPULARITY,
+        BYRATING
     }
 
+    public interface onMoviesOverviewNetworkConnectionListener {
+        void isNetworkConnectionLost();
+    }
 }

@@ -6,6 +6,4 @@
         android:layout_height="match_parent"
         tools:context="com.nanodegree.lkn573.popularmovies.Movies.MovieDetails"
         android:id="@+id/detailsActivity">
-
-
 </RelativeLayout>

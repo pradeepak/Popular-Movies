@@ -9,9 +9,6 @@ import com.nanodegree.lkn573.popularmovies.Config.RequestConfiguration;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- * Created by lkn573 on 9/21/16.
- */
 public class Movie implements Parcelable {
 
     private Boolean adult;

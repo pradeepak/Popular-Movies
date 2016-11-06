@@ -43,12 +43,8 @@ public class MovieDetailsFragment extends CoreFragment {
         Bundle arguments = getArguments();
         if (arguments != null) {
             selectedMovieItem = arguments.getParcelable("SelectedMovie");
-            //Log.d(TAG, "onCreate: "+selectedMovieItem.getTitle());
-
             setHasOptionsMenu(true);
         }
-
-
     }
 
     @Override
@@ -60,29 +56,23 @@ public class MovieDetailsFragment extends CoreFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         initializeViews(view);
-
-        if(toolbar!= null) {
-
+        if (toolbar != null) {
             ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
             ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Movie Details");
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.movie_details);
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     getActivity().finish();
-
                 }
             });
         }
         setMovieContent();
-
     }
 
     private void setMovieContent() {
-
         Glide.with(getContext()).load(selectedMovieItem.getPosterURL()).error(R.mipmap.ic_launcher).into(moviePoster);
         movieTitle.setText(selectedMovieItem.getTitle());
         releaseDate.setText(selectedMovieItem.getReleaseDate());
@@ -91,7 +81,6 @@ public class MovieDetailsFragment extends CoreFragment {
         movieRating.setText(selectedMovieItem.getVoteAverage() + maximumRating);
         movieRatingBar.setRating(numerialRating);
         overview.setText(selectedMovieItem.getOverView());
-
     }
 
     private void initializeViews(View view) {
@@ -103,8 +92,6 @@ public class MovieDetailsFragment extends CoreFragment {
         movieRatingBar = (RatingBar) view.findViewById(R.id.ratingBar);
         toolbar = (Toolbar) view.findViewById(R.id.movieDetailsToolbar);
         appBarLayout = (AppBarLayout) view.findViewById(R.id.appbarLayout);
-        //toolBarTitle = (TextView) view.findViewById(R.id.main_toolbar_title);
-
     }
 
     @Override
@@ -121,10 +108,5 @@ public class MovieDetailsFragment extends CoreFragment {
     public void onDetach() {
         super.onDetach();
     }
-
-    public void getMovieObject() {
-
-    }
-
 
 }

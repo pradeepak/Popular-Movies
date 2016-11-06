@@ -13,7 +13,7 @@ import com.nanodegree.lkn573.popularmovies.Core.CoreFragment;
 import com.nanodegree.lkn573.popularmovies.R;
 
 public class MainActivity extends CoreActivity implements CoreFragment.OnFragmentInteractionListener, NetworkErrorFragment
-    .onRetryListener, MoviesOverviewFragment.onMoviesOverviewNetworkConnectionListener{
+        .onRetryListener, MoviesOverviewFragment.onMoviesOverviewNetworkConnectionListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -22,7 +22,6 @@ public class MainActivity extends CoreActivity implements CoreFragment.OnFragmen
     FragmentManager fragmentManager;
 
     FragmentTransaction fragmentTransaction;
-
 
 
     @Override
@@ -58,14 +57,12 @@ public class MainActivity extends CoreActivity implements CoreFragment.OnFragmen
         Log.d(TAG, "displayMoviesFragment: new Fragment Created");
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
-
         fragmentTransaction.replace(R.id.main_container, moviesOverviewFragment).commit();
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-       // getSupportFragmentManager().putFragment(outState, "mContent", moviesOverviewFragment);
     }
 
     @Override
@@ -78,10 +75,10 @@ public class MainActivity extends CoreActivity implements CoreFragment.OnFragmen
         isInternetConnected();
     }
 
-    public void isInternetConnected(){
-        if(NetworkUtil.isNetworkConnected(getBaseContext())){
+    public void isInternetConnected() {
+        if (NetworkUtil.isNetworkConnected(getBaseContext())) {
             displayMoviesFragment();
-        }else{
+        } else {
             displayNetworkErrorFragment();
         }
     }

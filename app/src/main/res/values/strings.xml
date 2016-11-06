@@ -4,9 +4,14 @@
     <string name="image">Image</string>
 
     <!-- TODO: Remove or change this placeholder text -->
+    <string name="movie_details"> Movie Details</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="internet_connection_not_available">Internet Connection Not Available!</string>
     <string name="byPopularity">Popularity</string>
     <string name="byRating">Rating</string>
     <string name="retry">Retry</string>
+    <string name="movie_name">Movie Name</string>
+    <string name="default_date">2016-03-23</string>
+    <string name="default_release_date">release_date</string>
+    <string name="default_movie_title">Movie Title</string>
 </resources>

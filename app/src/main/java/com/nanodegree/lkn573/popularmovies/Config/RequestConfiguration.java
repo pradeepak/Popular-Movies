@@ -9,7 +9,7 @@ public class RequestConfiguration {
     public static final String GET_POPULAR_MOVIES = BASE_URL + "movie/popular";
     public static final String GET_TOP_RATED_MOVIES = BASE_URL + "movie/top_rated";
     public static final String IMAGE_URL = "http://image.tmdb.org/t/p/";
-    public static final String API_KEY = "b502150f844a7e7f551492d3a317865c";
+    public static final String API_KEY = "";
     public static final String API_KEY_PARAM = "api_key";
 
 

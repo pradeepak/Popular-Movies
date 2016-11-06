@@ -34,7 +34,6 @@ public class MovieDetails extends CoreActivity implements CoreFragment.OnFragmen
         if (movieItem != null) {
             displayMoviesDetailsFragment();
         }
-
     }
 
     @Override
