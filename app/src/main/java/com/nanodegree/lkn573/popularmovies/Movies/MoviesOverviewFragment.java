@@ -17,13 +17,21 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.nanodegree.lkn573.popularmovies.Adapters.MovieArrayAdapter;
+import com.nanodegree.lkn573.popularmovies.Config.MoviesApiClient;
+import com.nanodegree.lkn573.popularmovies.Config.MoviesApiInterface;
 import com.nanodegree.lkn573.popularmovies.Config.NetworkUtil;
 import com.nanodegree.lkn573.popularmovies.Core.CoreFragment;
 import com.nanodegree.lkn573.popularmovies.Core.GetMovieDataTask;
 import com.nanodegree.lkn573.popularmovies.Models.Movie;
+import com.nanodegree.lkn573.popularmovies.Models.MoviesResponse;
 import com.nanodegree.lkn573.popularmovies.R;
 
 import java.util.Arrays;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class MoviesOverviewFragment extends CoreFragment implements GetMovieDataTask.OnMoviesRetrievedListener,
@@ -74,14 +82,36 @@ public class MoviesOverviewFragment extends CoreFragment implements GetMovieData
     }
 
     private void getMovieData(SortCriteria mSortCriteria) {
+        MoviesApiInterface moviesApiInterface = MoviesApiClient.getRetrofitClient().create(MoviesApiInterface.class);
         Log.d(TAG, "getMovieData: Called" + mSortCriteria);
+
+        Call<MoviesResponse> call = null;
         if (mSortCriteria == SortCriteria.BYPOPULARITY) {
             sortCriteria = mSortCriteria;
-            new GetMovieDataTask(this).execute("Popular Movies");
+            call = moviesApiInterface.getPoplarMovies(MoviesApiClient.API_KEY);
         } else if (mSortCriteria == SortCriteria.BYRATING) {
             sortCriteria = mSortCriteria;
-            new GetMovieDataTask(this).execute("Top Rated");
+            call = moviesApiInterface.getTopRatedMovies(MoviesApiClient.API_KEY);
         }
+        call.enqueue(new Callback<MoviesResponse>() {
+            @Override
+            public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
+                if (response.body() != null) {
+                    List<Movie> moviesList = response.body().getMoviesList();
+                    mMovieArrayAdapter = new MovieArrayAdapter(getContext(), 0, moviesList);
+                    moviesGridView.setAdapter(mMovieArrayAdapter);
+                    Log.d(TAG, "onResponse: " + moviesList.size());
+                } else {
+                    Log.d(TAG, "onResponse: ");
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MoviesResponse> call, Throwable t) {
+                Log.d(TAG, "onFailure:  falied to retreived data");
+            }
+        });
     }
 
     @Override

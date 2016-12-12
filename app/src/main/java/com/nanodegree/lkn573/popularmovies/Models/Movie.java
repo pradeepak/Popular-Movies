@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
 import com.nanodegree.lkn573.popularmovies.Config.RequestConfiguration;
 
 import org.json.JSONException;
@@ -11,28 +12,40 @@ import org.json.JSONObject;
 
 public class Movie implements Parcelable {
 
+    @SerializedName("adult")
     private Boolean adult;
 
+    @SerializedName("id")
     private int id;
 
+    @SerializedName("original_language")
     private String originalLanguage;
 
+    @SerializedName("original_title")
     private String originalTitle;
 
+    @SerializedName("overview")
     private String overView;
 
+    @SerializedName("release_date")
     private String releaseDate;
 
+    @SerializedName("poster_path")
     private String posterPath;
 
+    @SerializedName("popuarity")
     private String popularity;
 
+    @SerializedName("title")
     private String title;
 
+    @SerializedName("video")
     private Boolean video;
 
+    @SerializedName("vote_average")
     private String voteAverage;
 
+    @SerializedName("vote_count")
     private int voteCount;
 
 
