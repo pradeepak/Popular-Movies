@@ -11,6 +11,9 @@
              android:id="@+id/sortByRating"
              app:showAsAction = "never">
        </item>
+       <item android:title="@string/byFavorite"
+           android:id="@+id/sortByFavorites"
+           app:showAsAction="never"/>
    </group>
 
 </menu>

@@ -23,6 +23,10 @@ public class NetworkErrorFragment extends CoreFragment implements View.OnClickLi
     public NetworkErrorFragment() {
     }
 
+    public static NetworkErrorFragment newInstance(){
+        return new NetworkErrorFragment();
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

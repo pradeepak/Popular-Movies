@@ -2,6 +2,7 @@ package com.nanodegree.lkn573.popularmovies.Movies;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -13,7 +14,7 @@ import com.nanodegree.lkn573.popularmovies.Core.CoreFragment;
 import com.nanodegree.lkn573.popularmovies.R;
 
 public class MainActivity extends CoreActivity implements CoreFragment.OnFragmentInteractionListener, NetworkErrorFragment
-        .onRetryListener, MoviesOverviewFragment.onMoviesOverviewNetworkConnectionListener {
+        .onRetryListener, NetworkUtil.networkConnectionListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -26,20 +27,17 @@ public class MainActivity extends CoreActivity implements CoreFragment.OnFragmen
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        moviesOverviewFragment = new MoviesOverviewFragment();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        fragmentManager = getSupportFragmentManager();
+        if (savedInstanceState == null) {
+            moviesOverviewFragment = new MoviesOverviewFragment();
+        } else {
+            moviesOverviewFragment = (MoviesOverviewFragment) fragmentManager.findFragmentByTag(MoviesOverviewFragment.TAG);
+        }
         isInternetConnected();
         Log.d(TAG, "onCreate: called");
     }
-
-    private void displayNetworkErrorFragment() {
-        fragmentManager = getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
-
-        fragmentTransaction.replace(R.id.main_container, new NetworkErrorFragment()).commit();
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -53,11 +51,10 @@ public class MainActivity extends CoreActivity implements CoreFragment.OnFragmen
 
     }
 
-    public void displayMoviesFragment() {
+    public void displayFragment(Fragment fragment) {
         Log.d(TAG, "displayMoviesFragment: new Fragment Created");
-        fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.main_container, moviesOverviewFragment).commit();
+        fragmentTransaction.replace(R.id.main_container, fragment, MoviesOverviewFragment.TAG).commit();
     }
 
     @Override
@@ -77,9 +74,9 @@ public class MainActivity extends CoreActivity implements CoreFragment.OnFragmen
 
     public void isInternetConnected() {
         if (NetworkUtil.isNetworkConnected(getBaseContext())) {
-            displayMoviesFragment();
+            displayFragment(moviesOverviewFragment);
         } else {
-            displayNetworkErrorFragment();
+            displayFragment(new NetworkErrorFragment());
         }
     }
 

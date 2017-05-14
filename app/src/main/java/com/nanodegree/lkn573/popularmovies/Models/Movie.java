@@ -1,5 +1,6 @@
 package com.nanodegree.lkn573.popularmovies.Models;
 
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -12,68 +13,56 @@ import org.json.JSONObject;
 
 public class Movie implements Parcelable {
 
+    private static final String MOVIE_ID = "id";
+    private static final String ORIGINAL_LANGUAGE = "original_language";
+    private static final String OVERVIEW = "overview";
+    private static final String RELEASE_DATE = "release_date";
+    private static final String POSTER_PATH = "poster_path";
+    private static final String POPULARITY = "popularity";
+    private static final String TITLE = "title";
+    private static final String VIDEO = "video";
+    private static final String VOTE_COUNT = "vote_count";
+    private static final String VOTE_AVERAGE = "vote_average";
+
+    public static final Creator<Movie> CREATOR = new Creator<Movie>() {
+        @Override
+        public Movie createFromParcel(Parcel in) {
+            return new Movie(in);
+        }
+
+        @Override
+        public Movie[] newArray(int size) {
+            return new Movie[size];
+        }
+    };
     @SerializedName("adult")
     private Boolean adult;
-
     @SerializedName("id")
     private int id;
-
     @SerializedName("original_language")
     private String originalLanguage;
-
     @SerializedName("original_title")
     private String originalTitle;
-
     @SerializedName("overview")
     private String overView;
-
     @SerializedName("release_date")
     private String releaseDate;
-
     @SerializedName("poster_path")
     private String posterPath;
-
     @SerializedName("popuarity")
     private String popularity;
-
     @SerializedName("title")
     private String title;
-
     @SerializedName("video")
     private Boolean video;
-
     @SerializedName("vote_average")
     private String voteAverage;
-
     @SerializedName("vote_count")
     private int voteCount;
-
-
-    public static final String MOVIE_ID = "id";
-
-    public static final String ORIGINAL_LANGUGE = "original_language";
-
-    public static final String ORIGINAL_TITLE = "original_title";
-
-    public static final String OVERVIEW = "overview";
-
-    public static final String RELEASE_DATE = "release_date";
-
-    public static final String POSTER_PATH = "poster_path";
-
-    public static final String POPULARITY = "popularity";
-
-    public static final String TITLE = "title";
-
-    public static final String VIDEO = "video";
-
-    public static final String VOTE_COUNT = "vote_count";
-
-    public static final String VOUTE_AVERAGE = "vote_average";
-
+    private boolean isFavourite;
 
     public Movie(Boolean adult, int id, String originalLanguage, String originalTitle, String overView, String releaseDate,
-        String posterPath, String popularity, String title, Boolean video, String voteAverage, int voteCount) {
+                 String posterPath, String popularity, String title, Boolean video, String voteAverage, int voteCount) {
         this.adult = adult;
         this.id = id;
         this.originalLanguage = originalLanguage;
@@ -90,16 +79,24 @@ public class Movie implements Parcelable {
 
     public Movie(JSONObject movieJsonObject) throws JSONException {
         this.id = movieJsonObject.getInt(MOVIE_ID);
-        this.originalLanguage = movieJsonObject.getString(ORIGINAL_LANGUGE);
+        this.originalLanguage = movieJsonObject.getString(ORIGINAL_LANGUAGE);
         this.overView = movieJsonObject.getString(OVERVIEW);
         this.releaseDate = movieJsonObject.getString(RELEASE_DATE);
         this.posterPath = movieJsonObject.getString(POSTER_PATH);
         this.popularity = movieJsonObject.getString(POPULARITY);
         this.video = movieJsonObject.getBoolean(VIDEO);
         this.title = movieJsonObject.getString(TITLE);
-        this.voteAverage = movieJsonObject.getString(VOUTE_AVERAGE);
+        this.voteAverage = movieJsonObject.getString(VOTE_AVERAGE);
         this.voteCount = movieJsonObject.getInt(VOTE_COUNT);
 
+    }
+    public Movie(Cursor cursor) {
+        this.id = cursor.getInt(0);
+        this.title = cursor.getString(1);
+        this.overView = cursor.getString(2);
+        this.releaseDate = cursor.getString(3);
+        this.posterPath = cursor.getString(4);
+        this.voteAverage = cursor.getString(5);
     }
 
     protected Movie(Parcel in) {
@@ -113,23 +110,16 @@ public class Movie implements Parcelable {
         title = in.readString();
         voteAverage = in.readString();
         voteCount = in.readInt();
+        isFavourite = in.readByte() != 0;
     }
-
-    public static final Creator<Movie> CREATOR = new Creator<Movie>() {
-        @Override
-        public Movie createFromParcel(Parcel in) {
-            return new Movie(in);
-        }
-
-        @Override
-        public Movie[] newArray(int size) {
-            return new Movie[size];
-        }
-    };
 
     public Movie(String title, int id) {
         this.title = title;
         this.id = id;
+    }
+
+    public static Creator<Movie> getCREATOR() {
+        return CREATOR;
     }
 
     public Boolean getAdult() {
@@ -142,6 +132,10 @@ public class Movie implements Parcelable {
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getOriginalLanguage() {
@@ -158,14 +152,6 @@ public class Movie implements Parcelable {
 
     public void setVoteCount(int voteCount) {
         this.voteCount = voteCount;
-    }
-
-    public static Creator<Movie> getCREATOR() {
-        return CREATOR;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getOriginalTitle() {
@@ -232,14 +218,21 @@ public class Movie implements Parcelable {
         this.voteAverage = voteAverage;
     }
 
+    public boolean isFavourite() {
+        return isFavourite;
+    }
+
+    public void setisFavourite(boolean isFavourite) {
+        this.isFavourite = isFavourite;
+    }
 
     public String getPosterURL() {
         String imageSize = "w185";
         Uri imageUriBuilder = Uri.parse(RequestConfiguration.IMAGE_URL)
-            .buildUpon()
-            .appendPath(imageSize)
-            .appendEncodedPath(posterPath)
-            .build();
+                .buildUpon()
+                .appendPath(imageSize)
+                .appendEncodedPath(posterPath)
+                .build();
 
         return imageUriBuilder.toString();
     }
@@ -262,5 +255,6 @@ public class Movie implements Parcelable {
         parcel.writeString(title);
         parcel.writeString(voteAverage);
         parcel.writeInt(voteCount);
+        parcel.writeByte((byte) (isFavourite ? 1 : 0));
     }
 }
